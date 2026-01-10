@@ -48,7 +48,7 @@ module Api
       end
 
       def court_params
-        params.require(:court).permit(:name, :surface_type, :description)
+        params.require(:court).permit(:name, :surface_type)
       end
 
       def authorize_club_owner

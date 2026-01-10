@@ -44,7 +44,7 @@ module Api
       end
 
       def club_params
-        params.require(:club).permit(:name, :address, :latitude, :longitude, :no_of_courts, :email, :phone_number, :description)
+        params.require(:club).permit(:name, :address, :latitude, :longitude, :no_of_courts, :email, :phone_number)
       end
 
       def authorize_club_owner
