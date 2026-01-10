@@ -6,13 +6,15 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-# amazon:
-#   service: S3
-#   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-#   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-#   region: us-east-1
-#   bucket: your_own_bucket-<%= Rails.env %>
+# S3-compatible storage (works with AWS S3 and Cloudflare R2)
+amazon:
+  service: S3
+  access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+  secret_access_key: <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
+  region: <%= ENV.fetch('AWS_REGION', 'us-east-1') %>
+  bucket: <%= ENV.fetch('AWS_S3_BUCKET', 'fairplay-videos') %>
+  endpoint: <%= ENV['AWS_ENDPOINT'] %> # Optional: For Cloudflare R2
+  force_path_style: <%= ENV['AWS_ENDPOINT'].present? %> # Required for Cloudflare R2
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
