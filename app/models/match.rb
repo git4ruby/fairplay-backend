@@ -5,6 +5,9 @@ class Match < ApplicationRecord
   has_many :players, through: :match_players, source: :user
   has_many :reviews, dependent: :destroy
 
+  # Active Storage - Multiple video attachments for different rallies
+  has_many_attached :videos
+
   # Enums
   enum :match_type, { singles: 0, doubles: 1 }, default: :singles
   enum :status, { scheduled: 0, ongoing: 1, finished: 2 }, default: :scheduled

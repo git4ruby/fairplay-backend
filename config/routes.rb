@@ -22,8 +22,12 @@ Rails.application.routes.draw do
         resources :courts
       end
 
-      # Matches with nested reviews
+      # Matches with nested reviews and video uploads
       resources :matches do
+        member do
+          post :upload_video
+          get :videos
+        end
         resources :reviews, only: [:index, :create]
       end
 
