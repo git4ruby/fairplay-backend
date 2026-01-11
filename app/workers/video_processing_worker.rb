@@ -24,7 +24,7 @@ class VideoProcessingWorker
 
       # For now, set a random decision and confidence
       review.update!(
-        decision: [:inn, :out, :uncertain].sample,
+        decision: [ :inn, :out, :uncertain ].sample,
         confidence: rand(60..95),
         status: :processed
       )

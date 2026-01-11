@@ -1,16 +1,16 @@
 module Api
   module V1
     class ClubsController < BaseController
-      before_action :set_club, only: [:show, :update, :destroy]
-      before_action :authorize_club_owner, only: [:update, :destroy]
+      before_action :set_club, only: [ :show, :update, :destroy ]
+      before_action :authorize_club_owner, only: [ :update, :destroy ]
 
       def index
         @clubs = Club.includes(:owners, :courts).all
-        render json: @clubs.as_json(include: { owners: { only: [:id, :email, :first_name, :last_name] }, courts: { only: [:id, :name, :surface_type] } }), status: :ok
+        render json: @clubs.as_json(include: { owners: { only: [ :id, :email, :first_name, :last_name ] }, courts: { only: [ :id, :name, :surface_type ] } }), status: :ok
       end
 
       def show
-        render json: @club.as_json(include: { owners: { only: [:id, :email, :first_name, :last_name] }, courts: { only: [:id, :name, :surface_type] } }), status: :ok
+        render json: @club.as_json(include: { owners: { only: [ :id, :email, :first_name, :last_name ] }, courts: { only: [ :id, :name, :surface_type ] } }), status: :ok
       end
 
       def create
@@ -49,7 +49,7 @@ module Api
 
       def authorize_club_owner
         unless @club.owners.include?(current_user) || current_user_admin?
-          render json: { error: 'Unauthorized' }, status: :forbidden
+          render json: { error: "Unauthorized" }, status: :forbidden
         end
       end
     end

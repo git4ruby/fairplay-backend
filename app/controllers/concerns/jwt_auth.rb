@@ -9,24 +9,24 @@ module JwtAuth
   private
 
   def authenticate_request
-    header = request.headers['Authorization']
-    return render_unauthorized('Missing Authorization header') unless header.present?
+    header = request.headers["Authorization"]
+    return render_unauthorized("Missing Authorization header") unless header.present?
 
     # Extract token from "Bearer TOKEN" format
-    token = header.to_s.split(' ').last
+    token = header.to_s.split(" ").last
     Rails.logger.debug "Auth header: #{header.inspect}, Token: #{token[0..20]}..."
 
     begin
-      decoded = JWT.decode(token, ENV['DEVISE_JWT_SECRET_KEY'], true, { algorithm: 'HS256' })
+      decoded = JWT.decode(token, ENV["DEVISE_JWT_SECRET_KEY"], true, { algorithm: "HS256" })
 
       # Check if token is revoked (in denylist)
-      jti = decoded[0]['jti']
+      jti = decoded[0]["jti"]
       if JwtDenylist.exists?(jti: jti)
         Rails.logger.warn "Revoked token attempted: #{jti}"
-        return render_unauthorized('Token has been revoked')
+        return render_unauthorized("Token has been revoked")
       end
 
-      @current_user = User.find(decoded[0]['sub'])
+      @current_user = User.find(decoded[0]["sub"])
       Rails.logger.debug "Successfully authenticated user: #{@current_user.email}"
     rescue StandardError => e
       Rails.logger.error "JWT Auth Error: #{e.class} - #{e.message}"
@@ -34,7 +34,7 @@ module JwtAuth
     end
   end
 
-  def render_unauthorized(message = 'Unauthorized')
+  def render_unauthorized(message = "Unauthorized")
     render json: { error: message }, status: :unauthorized
   end
 end

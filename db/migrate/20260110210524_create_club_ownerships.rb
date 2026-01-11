@@ -7,6 +7,6 @@ class CreateClubOwnerships < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :club_ownerships, [:user_id, :club_id], unique: true
+    add_index :club_ownerships, [ :user_id, :club_id ], unique: true
   end
 end

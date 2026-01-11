@@ -4,6 +4,6 @@ class MatchPlayer < ApplicationRecord
   belongs_to :user
 
   # Validations
-  validates :team_number, presence: true, inclusion: { in: [1, 2], message: "must be 1 or 2" }
+  validates :team_number, presence: true, inclusion: { in: [ 1, 2 ], message: "must be 1 or 2" }
   validates :user_id, uniqueness: { scope: :match_id, message: "already in this match" }
 end

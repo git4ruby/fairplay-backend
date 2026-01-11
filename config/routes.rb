@@ -1,17 +1,17 @@
-require 'sidekiq/web'
+require "sidekiq/web"
 
 Rails.application.routes.draw do
   # Sidekiq Web UI (protect this in production)
-  mount Sidekiq::Web => '/sidekiq'
+  mount Sidekiq::Web => "/sidekiq"
 
   # Devise routes for authentication
-  devise_for :users, path: '', path_names: {
-    sign_in: 'login',
-    sign_out: 'logout',
-    registration: 'signup'
+  devise_for :users, path: "", path_names: {
+    sign_in: "login",
+    sign_out: "logout",
+    registration: "signup"
   }, controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'
+    sessions: "users/sessions",
+    registrations: "users/registrations"
   }
 
   # API routes
@@ -28,11 +28,11 @@ Rails.application.routes.draw do
           post :upload_video
           get :videos
         end
-        resources :reviews, only: [:index, :create]
+        resources :reviews, only: [ :index, :create ]
       end
 
       # Reviews (disputes)
-      resources :reviews, only: [:show, :update]
+      resources :reviews, only: [ :show, :update ]
     end
   end
 

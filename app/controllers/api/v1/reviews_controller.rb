@@ -1,18 +1,18 @@
 module Api
   module V1
     class ReviewsController < BaseController
-      before_action :set_match, only: [:index, :create]
-      before_action :set_review, only: [:show, :update]
-      before_action :authorize_match_participant, only: [:create]
-      before_action :authorize_review_owner, only: [:update]
+      before_action :set_match, only: [ :index, :create ]
+      before_action :set_review, only: [ :show, :update ]
+      before_action :authorize_match_participant, only: [ :create ]
+      before_action :authorize_review_owner, only: [ :update ]
 
       def index
         @reviews = @match.reviews.includes(:user)
-        render json: @reviews.as_json(include: { user: { only: [:id, :email, :first_name, :last_name] } }), status: :ok
+        render json: @reviews.as_json(include: { user: { only: [ :id, :email, :first_name, :last_name ] } }), status: :ok
       end
 
       def show
-        render json: @review.as_json(include: { user: { only: [:id, :email, :first_name, :last_name] }, match: { include: :court } }), status: :ok
+        render json: @review.as_json(include: { user: { only: [ :id, :email, :first_name, :last_name ] }, match: { include: :court } }), status: :ok
       end
 
       def create
@@ -51,13 +51,13 @@ module Api
 
       def authorize_match_participant
         unless @match.players.include?(current_user) || current_user_admin?
-          render json: { error: 'Unauthorized' }, status: :forbidden
+          render json: { error: "Unauthorized" }, status: :forbidden
         end
       end
 
       def authorize_review_owner
         unless @review.user == current_user || current_user_admin?
-          render json: { error: 'Unauthorized' }, status: :forbidden
+          render json: { error: "Unauthorized" }, status: :forbidden
         end
       end
     end

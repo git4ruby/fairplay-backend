@@ -1,16 +1,16 @@
 module Api
   module V1
     class MatchesController < BaseController
-      before_action :set_match, only: [:show, :update, :destroy, :upload_video, :videos]
-      before_action :authorize_match_participant, only: [:update, :destroy, :upload_video]
+      before_action :set_match, only: [ :show, :update, :destroy, :upload_video, :videos ]
+      before_action :authorize_match_participant, only: [ :update, :destroy, :upload_video ]
 
       def index
         @matches = Match.includes(:court, :players, :reviews).all
         render json: @matches.as_json(
           include: {
             court: { include: :club },
-            players: { only: [:id, :email, :first_name, :last_name] },
-            reviews: { only: [:id, :status, :decision, :confidence] }
+            players: { only: [ :id, :email, :first_name, :last_name ] },
+            reviews: { only: [ :id, :status, :decision, :confidence ] }
           }
         ), status: :ok
       end
@@ -19,14 +19,14 @@ module Api
         match_data = @match.as_json(
           include: {
             court: { include: :club },
-            players: { only: [:id, :email, :first_name, :last_name] },
-            reviews: { only: [:id, :status, :decision, :confidence, :video_url] }
+            players: { only: [ :id, :email, :first_name, :last_name ] },
+            reviews: { only: [ :id, :status, :decision, :confidence, :video_url ] }
           }
         )
 
         # Add video information
-        match_data['videos'] = @match.videos.map { |video| video_json(video) }
-        match_data['video_count'] = @match.videos.count
+        match_data["videos"] = @match.videos.map { |video| video_json(video) }
+        match_data["video_count"] = @match.videos.count
 
         render json: match_data, status: :ok
       end
@@ -71,16 +71,16 @@ module Api
           if latest_video
             video_data = video_json(latest_video)
           else
-            video_data = { message: 'Video attachment failed' }
+            video_data = { message: "Video attachment failed" }
           end
 
           render json: {
-            message: 'Video uploaded successfully',
+            message: "Video uploaded successfully",
             video_count: @match.videos.count,
             latest_video: video_data
           }, status: :created
         else
-          render json: { error: 'No video file provided' }, status: :unprocessable_entity
+          render json: { error: "No video file provided" }, status: :unprocessable_entity
         end
       end
 
@@ -127,7 +127,7 @@ module Api
 
       def authorize_match_participant
         unless @match.players.include?(current_user) || current_user_admin?
-          render json: { error: 'Unauthorized' }, status: :forbidden
+          render json: { error: "Unauthorized" }, status: :forbidden
         end
       end
     end

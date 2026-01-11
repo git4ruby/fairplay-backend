@@ -2,8 +2,8 @@ module Api
   module V1
     class CourtsController < BaseController
       before_action :set_club
-      before_action :set_court, only: [:show, :update, :destroy]
-      before_action :authorize_club_owner, only: [:create, :update, :destroy]
+      before_action :set_court, only: [ :show, :update, :destroy ]
+      before_action :authorize_club_owner, only: [ :create, :update, :destroy ]
 
       def index
         @courts = @club.courts
@@ -53,7 +53,7 @@ module Api
 
       def authorize_club_owner
         unless @club.owners.include?(current_user) || current_user_admin?
-          render json: { error: 'Unauthorized' }, status: :forbidden
+          render json: { error: "Unauthorized" }, status: :forbidden
         end
       end
     end
