@@ -18,6 +18,14 @@ module JwtAuth
 
     begin
       decoded = JWT.decode(token, ENV['DEVISE_JWT_SECRET_KEY'], true, { algorithm: 'HS256' })
+
+      # Check if token is revoked (in denylist)
+      jti = decoded[0]['jti']
+      if JwtDenylist.exists?(jti: jti)
+        Rails.logger.warn "Revoked token attempted: #{jti}"
+        return render_unauthorized('Token has been revoked')
+      end
+
       @current_user = User.find(decoded[0]['sub'])
       Rails.logger.debug "Successfully authenticated user: #{@current_user.email}"
     rescue StandardError => e
