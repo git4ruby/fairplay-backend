@@ -36,7 +36,7 @@ gem "thruster", require: false
 gem "rack-cors"
 
 # Background job processing
-gem "sidekiq", "~> 7.0"
+gem "sidekiq", "~> 8.1"
 
 # Object storage (works with S3 and Cloudflare R2)
 gem "aws-sdk-s3", "~> 1.0"
