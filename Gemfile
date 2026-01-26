@@ -10,7 +10,7 @@ gem "puma", ">= 5.0"
 # gem "jbuilder"
 
 # Use Devise for authentication
-gem "devise", "~> 4.9"
+gem "devise", "~> 5.0"
 gem "devise-jwt", "~> 0.12"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
