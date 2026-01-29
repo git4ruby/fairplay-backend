@@ -39,7 +39,7 @@ gem "rack-cors"
 gem "sidekiq", "~> 7.0"
 
 # Object storage (works with S3 and Cloudflare R2)
-gem "aws-sdk-s3", "~> 1.0"
+gem "aws-sdk-s3", "~> 1.213"
 
 # JSON API serializer
 gem "jsonapi-serializer"
